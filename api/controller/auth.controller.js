@@ -1,6 +1,7 @@
 import User from "../models/user.model.js"
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
+import _ from "lodash"
 import ErrorHandler from "../utils/error.handler.js"
 class AuthController{
     async signup(req,res,next){
@@ -36,7 +37,7 @@ class AuthController{
             }
             const accessToken=jwt.sign({id:user._id},process.env.JWT_ACCESS_TOKEN_SECRET_KEY,{expiresIn:1000*60*60})
             res.cookie('accessToken',accessToken,{httpOnly:true,maxAge:1000*60*60})
-            return res.send({message:"User Login Successfully"})
+            return res.send({message:"User Login Successfully",user:_.pick(user,['username','email','_id','createdAt'])})
 
 
         } catch (error) {

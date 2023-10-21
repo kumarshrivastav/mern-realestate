@@ -2,11 +2,13 @@
 import { useState } from "react";
 import { Link ,useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
-
+import { useDispatch, useSelector } from "react-redux";
+import { signInFailure, signInStart, signInSuccess } from "../redux/user/userSlice";
 const SignIn = () => {
   const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(false);
+  const {loading,error}=useSelector((state)=>state.user)
   const navigate=useNavigate()
+  const dispatch=useDispatch()
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -20,7 +22,7 @@ const SignIn = () => {
       return;
     }
     try {
-      setLoading(true);
+      dispatch(signInStart())
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -30,17 +32,18 @@ const SignIn = () => {
       });
       const data = await res.json();
       if(data?.success===false){
+        dispatch(signInFailure(data.message))
         toast.error(data.message)
         return
       }
       console.log(data);
+      dispatch(signInSuccess(data.user))
       navigate("/")
       return toast.success(data.message);
     } catch (error) {
+      dispatch(signInFailure(error.message))
       console.log(error);
       toast.error(error.message);
-    } finally {
-      setLoading(false);
     }
   };
   return (
@@ -76,6 +79,7 @@ const SignIn = () => {
           <span className="text-blue-700">Sign Up</span>
         </Link>
       </div>
+      {error ? <p className="text-red-500">{error}</p>:''}
     </div>
   );
 };
