@@ -4,7 +4,7 @@ import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import {useSelector} from "react-redux"
 const Headers = () => {
-  const currentUser=useSelector((state)=>state.user)
+  const {currentUser}=useSelector((state)=>state.user)
   console.log(currentUser)
   // const profilePicture=currentUser?.avatar
   return (
@@ -37,9 +37,9 @@ const Headers = () => {
             About
           </li></Link>
           
-          {currentUser?.currentUser ? (
+          {currentUser?.username? (
             <Link to="profile">
-            <img className="rounded-full h-7 w-7 object-cover" src={currentUser?.currentUser?.avatar} alt="profile" />
+            <img className="rounded-full h-7 w-7 object-cover" src={currentUser?.avatar} alt="profile" />
           </Link>
           ):(
             <Link to="sign-in">

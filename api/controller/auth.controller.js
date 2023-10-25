@@ -22,7 +22,8 @@ class AuthController {
       user.password = hashPwd;
       const saveNewUser = await user.save();
       console.log("Saved:", saveNewUser);
-      return res.status(201).send({ message: "User Registered Successfully" });
+      const {password:pass,...rest}=user._doc
+      return res.status(201).send({ message: "User Registered Successfully",user: rest});
     } catch (error) {
       next(ErrorHandler(501, error.message));
     }
@@ -47,9 +48,10 @@ class AuthController {
         httpOnly: true,
         maxAge: 1000 * 60 * 60,
       });
+      const {password:pass,...rest}=user._doc
       return res.send({
         message: "User Login Successfully",
-        user: _.pick(user, ["username", "email", "_id", "createdAt"]),
+        user:rest,
       });
     } catch (error) {
       next(error);
@@ -88,6 +90,7 @@ class AuthController {
           avatar: req.body.photo,
         });
         const newUserDoc = await newUser.save();
+        const {password,...rest}=newUserDoc._doc
         const accessToken = jwt.sign(
           { id: newUserDoc._id },
           process.env.JWT_ACCESS_TOKEN_SECRET_KEY,
@@ -99,15 +102,7 @@ class AuthController {
             maxAge: 1000 * 60 * 60 * 24,
           })
           .status(201)
-          .send(
-            _.pick(newUserDoc, [
-              "username",
-              "email",
-              "avatar",
-              "_id",
-              "createdAt",
-            ])
-          );
+          .send(rest)
       }
     } catch (error) {
       next(error);
