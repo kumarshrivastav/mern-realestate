@@ -26,7 +26,7 @@ const OAuth = () => {
           });
           const data=await res.json()
           dispatch(signInSuccess(data))
-          console.log(data);
+          // console.log(data);
           navigate("/")
           return toast.success('you signin successfully')
         } catch (error) {

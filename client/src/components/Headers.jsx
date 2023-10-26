@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import {useSelector} from "react-redux"
 const Headers = () => {
   const {currentUser}=useSelector((state)=>state.user)
-  console.log(currentUser)
+  // console.log(currentUser)
   // const profilePicture=currentUser?.avatar
   return (
     <header className="bg-slate-200 shadow-md">

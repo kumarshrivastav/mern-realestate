@@ -37,13 +37,13 @@ const SignIn = () => {
         toast.error(data.message)
         return
       }
-      console.log(data);
+      // console.log(data);
       dispatch(signInSuccess(data.user))
       navigate("/")
       return toast.success(data.message);
     } catch (error) {
       dispatch(signInFailure(error.message))
-      console.log(error);
+      // console.log(error);
       toast.error(error.message);
     }
   };

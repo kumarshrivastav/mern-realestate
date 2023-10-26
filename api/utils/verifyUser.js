@@ -2,6 +2,7 @@ import ErrorHandler from "./error.handler.js"
 import jwt from "jsonwebtoken"
 export const verifyUser=(req,res,next)=>{
     const accessToken=req.cookies.accessToken
+    // console.log(accessToken)
     if(!accessToken){
       next(ErrorHandler(401,'Unauthorized'))
     }

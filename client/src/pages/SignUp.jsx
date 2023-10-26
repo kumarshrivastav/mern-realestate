@@ -34,11 +34,11 @@ const SignUp = () => {
         toast.error(data.message)
         return
       }
-      console.log(data);
+      // console.log(data);
       navigate("/sign-in")
       return toast.success(data.message);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error(error.message);
     } finally {
       setLoading(false);

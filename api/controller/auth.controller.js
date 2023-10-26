@@ -12,7 +12,7 @@ class AuthController {
         { username: username },
         { email: email },
       ]);
-      console.log(user);
+      // console.log(user);
       if (user[0]) {
         throw new Error("this email or username has been already taken");
       }
@@ -21,7 +21,7 @@ class AuthController {
       const hashPwd = await bcryptjs.hash(password, salt);
       user.password = hashPwd;
       const saveNewUser = await user.save();
-      console.log("Saved:", saveNewUser);
+      // console.log("Saved:", saveNewUser);
       const {password:pass,...rest}=user._doc
       return res.status(201).send({ message: "User Registered Successfully",user: rest});
     } catch (error) {
