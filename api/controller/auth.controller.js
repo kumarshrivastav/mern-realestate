@@ -57,6 +57,14 @@ class AuthController {
       next(error);
     }
   }
+  async signout(req,res,next){
+    try {
+      res.clearCookie('accessToken')
+      res.status(200).send({message:"User Sign Out Successfully"})
+    } catch (error) {
+      next(ErrorHandler(401,'Signout Failed'))
+    }
+  }
   async google(req, res, next) {
     try {
       const user = await User.findOne({ email: req.body.email });

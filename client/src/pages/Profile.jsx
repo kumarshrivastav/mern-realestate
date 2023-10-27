@@ -12,6 +12,9 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  signoutUserFailure,
+  signoutUserStart,
+  signoutUserSuccess,
   updateUserFailure,
   updateUserStart,
   updateUserSuccess,
@@ -73,6 +76,22 @@ try {
 
 } catch (error) {
   return dispatch(deleteUserFailure(error.message))
+}
+  }
+  const handleSignoutUser=async()=>{
+try {
+  dispatch(signoutUserStart())
+  const res=await fetch("/api/auth/signout")
+  const data=await res.json()
+  if(data.success===false){
+    dispatch(signoutUserFailure(data.message))
+    return
+  }
+  dispatch(signoutUserSuccess(data))
+
+} catch (error) {
+  console.log(error)
+  dispatch(signoutUserFailure(error.message))
 }
   }
   const handleSubmit = async (e) => {
@@ -159,14 +178,14 @@ try {
         <button
           disabled={loading}
           type="submit"
-          className="bg-slate-700 text-white rounded-lg p-3 hover:opacity-90 disabled:opacity-80 uppercase disabled:opacity-80"
+          className="bg-slate-700 text-white rounded-lg p-3 hover:opacity-90 uppercase disabled:opacity-80"
         >
           {loading ? "Loading" : "Update"}
         </button>
       </form>
       <div className="flex justify-between mt-3">
         <span onClick={handleDeleteUser} className="text-red-700 cursor-pointer">Delete account</span>
-        <span className="text-red-700 cursor-pointer">Sign Out</span>
+        <span onClick={handleSignoutUser} className="text-red-700 cursor-pointer">Sign Out</span>
       </div>
       <p className="text-red-700 mt-5">{error ? error : ""}</p>
       <p className="text-green-700 mt-5">
