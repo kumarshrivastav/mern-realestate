@@ -1,3 +1,4 @@
+import ListingModel from "../models/listing.model.js";
 import User from "../models/user.model.js";
 import ErrorHandler from "../utils/error.handler.js";
 import bcryptjs from "bcryptjs";
@@ -49,6 +50,18 @@ class UserController {
     } catch (error) {
       next(error);
     }
+  }
+  async getUserListings(req,res,next){
+   if(req.userId ===req.params.id){
+try {
+  const listing=await ListingModel.find({userRef:req.params.id})
+  return res.status(200).send(listing)
+} catch (error) {
+  next(error)
+}
+   }else{
+    return next(ErrorHandler(401,'you can only see your own listing'))
+   }
   }
 }
 

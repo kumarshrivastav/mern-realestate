@@ -5,5 +5,6 @@ const router=express.Router()
 // router.get("/test",userController.test)
 router.post("/update/:id",verifyUser,userController.update)
 router.delete("/delete/:id",verifyUser,userController.delete)
+router.get("/listings/:id",verifyUser,userController.getUserListings)
 
 export default router;

@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 let listingSchema = new mongoose.Schema(
   {
     name: {type: String,required: true},
-    userId:{type:mongoose.Schema.Types.ObjectId,ref:'users'},
     description: { type: String, required: true },
     address: { type: String, required: true },
     regularPrice: { type: Number, required: true },
