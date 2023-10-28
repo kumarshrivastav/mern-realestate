@@ -25,10 +25,13 @@ const Profile = () => {
   const [filePercentage, setFilePercentage] = useState(0);
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [file, setFile] = useState(null);
+  const [showListingError,setShowListingError]=useState(false)
+  const [userListing,setUserListing]=useState([])
   const { currentUser, loading, error } = useSelector((state) => state.user);
   //eslint-disable-next-line
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
+  console.log(userListing)
   const dispatch = useDispatch();
   const handleFileUpload = (file) => {
     const storage = getStorage(app);
@@ -116,6 +119,20 @@ try {
       dispatch(updateUserFailure(error.message));
     }
   };
+  const handleShowListing=async()=>{
+try {
+  const res=await fetch(`/api/user/listings/${currentUser._id}`)
+  const data=await res.json()
+  if(data.success===false){
+    return setShowListingError(true)
+  }
+  setShowListingError(false)
+  // console.log(data)
+  setUserListing(data)
+} catch (error) {
+  setShowListingError(true)
+}
+  }
   return (
     <div className="max-w-lg p-3 mx-auto">
       <h1 className="text-3xl my-7 text-center font-semibold">Profile</h1>
@@ -193,6 +210,27 @@ try {
       <p className="text-green-700 mt-5">
         {updateSuccess ? "User Updated Successfully ...." : ""}
       </p>
+      <button className="text-green-700 w-full" onClick={handleShowListing}>Show Listing</button>
+      {showListingError && <p className="text-red-700 text-sm">Error In Show Listing</p>}
+      {userListing && userListing.length>0 &&
+      <div className="flex flex-col gap-4">
+        <h1 className="text-center mt-7 text-2xl font-semibold">Your Listings</h1>
+          {userListing.map((listing)=>(
+        <div key={listing._id} className="border p-3 rounded-lg flex justify-between items-center gap-4">
+          <Link to={`/listings/${currentUser._id}`}>
+            <img src={listing.imageUrls[0]} alt="listing-image" className="h-16 w-16 object-contain" />
+          </Link>
+          <Link className="text-slate-700 font-semibold flex-1 hover:underline truncate" to={`/listings/${currentUser._id}`}>
+          <p>{listing.name}</p>
+          </Link>
+          <div className="flex flex-col items-center">
+            <button className="text-red-700 uppercase">Delete</button>
+            <button className="text-green-700 uppercase">Edit</button>
+          </div>
+        </div>
+      ))}
+      </div>
+          }
     </div>
   );
 };
