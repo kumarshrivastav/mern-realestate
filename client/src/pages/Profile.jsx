@@ -31,7 +31,7 @@ const Profile = () => {
   //eslint-disable-next-line
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
-  console.log(userListing)
+  // console.log(userListing)
   const dispatch = useDispatch();
   const handleFileUpload = (file) => {
     const storage = getStorage(app);
@@ -133,6 +133,20 @@ try {
   setShowListingError(true)
 }
   }
+  const handleDeleteListing=async(listingId)=>{
+    try {
+      const res=await fetch(`/api/listing/delete/${listingId}`,{
+        method:'DELETE'
+      })
+      const data=await res.json()
+      console.log(data)
+      setUserListing((prev)=>{
+        prev.filter((listing)=>listing._id!==listingId)
+      })
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
   return (
     <div className="max-w-lg p-3 mx-auto">
       <h1 className="text-3xl my-7 text-center font-semibold">Profile</h1>
@@ -224,7 +238,7 @@ try {
           <p>{listing.name}</p>
           </Link>
           <div className="flex flex-col items-center">
-            <button className="text-red-700 uppercase">Delete</button>
+            <button onClick={()=>handleDeleteListing(listing._id)} className="text-red-700 uppercase">Delete</button>
             <button className="text-green-700 uppercase">Edit</button>
           </div>
         </div>
