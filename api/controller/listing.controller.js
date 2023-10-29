@@ -25,6 +25,21 @@ class ListingController {
         next(error)
     }
   }
+  async update(req,res,next){
+    try {
+        const listing=await ListingModel.findById(req.params.id)
+        if(!listing){
+            return next(ErrorHandler(404,'Listing Not Found'))
+        }
+        if(req.userId!==listing.userRef){
+            return next(ErrorHandler(401,'You can only update your own listing'))
+        }
+        const updatedListing=await ListingModel.findByIdAndUpdate(req.params.id,req.body,{new:true})
+        return res.status(200).send({message:"Listing Updated Successfully",updatedListing})
+    } catch (error) {
+        next(error)
+    }
+  }
 }
 
 export default new ListingController();
