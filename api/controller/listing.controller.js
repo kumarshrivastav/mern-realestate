@@ -40,6 +40,17 @@ class ListingController {
         next(error)
     }
   }
+  async getListing(req,res,next){
+    try {
+      const listing=await ListingModel.findById(req.params.id)
+      if(!listing){
+        return next(ErrorHandler(404,'Listing Not Found'))
+      }
+      return res.status(200).send(listing)
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 export default new ListingController();
