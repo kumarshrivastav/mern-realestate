@@ -46,22 +46,34 @@ class UserController {
       }
       await User.findByIdAndDelete(req.params.id);
       res.clearCookie("accessToken");
-      return res.status(200).send({message:"User has been deleted!"});
+      return res.status(200).send({ message: "User has been deleted!" });
     } catch (error) {
       next(error);
     }
   }
-  async getUserListings(req,res,next){
-   if(req.userId ===req.params.id){
-try {
-  const listing=await ListingModel.find({userRef:req.params.id})
-  return res.status(200).send(listing)
-} catch (error) {
-  next(error)
-}
-   }else{
-    return next(ErrorHandler(401,'you can only see your own listing'))
-   }
+  async getUser(req, res, next) {
+    try {
+      const user=await User.findById(req.params.id)
+      if(!user){
+        return next(ErrorHandler(404,'User Not Found'))
+      }
+      const {password:pass,...rest}=user._doc
+      return res.status(200).send(rest)
+    } catch (error) {
+      next(error)
+    }
+  }
+  async getUserListings(req, res, next) {
+    if (req.userId === req.params.id) {
+      try {
+        const listing = await ListingModel.find({ userRef: req.params.id });
+        return res.status(200).send(listing);
+      } catch (error) {
+        next(error);
+      }
+    } else {
+      return next(ErrorHandler(401, "you can only see your own listing"));
+    }
   }
 }
 
