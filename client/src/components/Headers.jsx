@@ -1,10 +1,33 @@
 // eslint-disable-next-line no-unused-vars
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import {useSelector} from "react-redux"
 const Headers = () => {
+  const navigate=useNavigate()
+  const [searchTerm,setSearchTerm]=useState('')
   const {currentUser}=useSelector((state)=>state.user)
+  const handleSubmit=(e)=>{
+    e.preventDefault()
+    try {
+      console.log(searchTerm)
+      const urlParams=new URLSearchParams(window.location.search)
+      urlParams.set('searchTerm',searchTerm)
+      const searchQuery=urlParams.toString()
+      navigate(`/search/?${searchQuery}`)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(()=>{
+    const urlParams=new URLSearchParams(location.search)
+    const searchParamFromUrl=urlParams.get('searchTerm')
+    if(searchParamFromUrl){
+      setSearchTerm(searchParamFromUrl)
+    }
+    //eslint-disable-next-line
+  },[location.search])
   // console.log(currentUser)
   // const profilePicture=currentUser?.avatar
   return (
@@ -17,15 +40,20 @@ const Headers = () => {
         </h1>
         </Link>
         
-        <form className="bg-slate-100 p-3 rounded-lg flex items-center">
+        <form onSubmit={handleSubmit} className="bg-slate-100 p-3 rounded-lg flex items-center">
           <input
             type="text"
             className="bg-transparent focus:outline-none w-24 sm:w-64"
             name="search"
             id="search"
+            value={searchTerm}
+            onChange={(e)=>setSearchTerm(e.target.value)}
             placeholder="Search..."
           />
+          <button type="submit">
           <FaSearch className="text-slate-600" />
+          </button>
+          
         </form>
         <ul className="flex gap-4">
           <Link to="/">
