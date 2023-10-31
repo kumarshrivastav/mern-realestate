@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ListingCard from "../components/ListingCard";
 const Search = () => {
     const [loading,setLoading]=useState(false)
     const [listings,setListings]=useState([])
@@ -215,11 +216,25 @@ try {
           </button>
         </form>
       </div>
-      <div>
+      <div className="flex-1">
         <h1 className="text-3xl border-b p-3 text-slate-700 font-semibold mt-5">
           Listing Results:{" "}
         </h1>
-        {loading&&"Loading.."}
+        <div className="p-7 flex flex-wrap gap-4">
+          {!loading && listings.length===0 && (
+            <p className="text-xl text-slate-700">No Listing Found...</p>
+          )}
+          {
+            loading && (
+              <p className="text-xl text-slate-700 text-center w-full">Loading...</p>
+            )
+          }
+          {
+            !loading && listings.length>0 && listings.map((listing)=>(
+              <ListingCard key={listing._id} listing={listing}/>
+            ))
+          }
+        </div>
       </div>
     </div>
   );

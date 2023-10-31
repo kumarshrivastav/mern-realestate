@@ -276,7 +276,7 @@ const CreateListing = () => {
                 type="number"
                 name="regularPrice"
                 id="regularPrice"
-                max={5000}
+                
                 onChange={handleChange}
                 value={formData.regularPrice}
                 min={80}
@@ -296,7 +296,7 @@ const CreateListing = () => {
                   id="discountPrice"
                   onChange={handleChange}
                   value={formData.discountPrice}
-                  max={400}
+                  
                   min={0}
                   required
                 />
