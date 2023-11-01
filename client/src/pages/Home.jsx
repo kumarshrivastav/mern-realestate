@@ -12,7 +12,6 @@ const Home = () => {
   const [offerListing, setOfferListing] = useState([]);
   const [rentListing, setRentListing] = useState([]);
   const [saleListing, setSaleListing] = useState([]);
-  // console.log(saleListing)
   useEffect(() => {
     const fetchOfferListing = async () => {
       try {

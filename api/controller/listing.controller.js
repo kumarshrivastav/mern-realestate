@@ -48,9 +48,7 @@ class ListingController {
   }
   async getListing(req, res, next) {
     try {
-      console.log(req.params);
       const listing = await ListingModel.findById(req.params.id);
-      console.log(listing);
       if (!listing) {
         return next(ErrorHandler(404, "Listing Not Found"));
       }

@@ -14,7 +14,6 @@ const Search = () => {
     sort: "created_at",
     order: "desc",
   });
-  console.log(listings)
   const navigate = useNavigate();
   // console.log(sideBardata)
   const handleChange = (e) => {

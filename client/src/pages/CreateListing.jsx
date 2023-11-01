@@ -119,7 +119,6 @@ const CreateListing = () => {
       if (+formData.regularPrice < +formData.discountPrice) {
         return setError("regular price must be greater than discount price");
       }
-      console.log(formData);
       const res = await fetch("/api/listing/create", {
         method: "POST",
         headers: {
@@ -131,7 +130,6 @@ const CreateListing = () => {
         }),
       });
       const data = await res.json();
-      console.log("Data:", data);
       if (data.success === false) {
         setError(data.message);
       }
@@ -139,7 +137,6 @@ const CreateListing = () => {
       return navigete(`/listing/${data?.listing?._id}`);
     } catch (error) {
       setError(error.message);
-      console.log(error);
     } finally {
       setLoading(false);
     }

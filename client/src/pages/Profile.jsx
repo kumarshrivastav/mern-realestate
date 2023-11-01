@@ -71,7 +71,6 @@ try {
     method:'DELETE'
   })
   const data=await res.json()
-  console.log("DATA:",data)
   if(data.success===false){
     return dispatch(deleteUserFailure(data.message))
   }
@@ -95,7 +94,6 @@ try {
   dispatch(signoutUserSuccess(data))
 
 } catch (error) {
-  console.log(error)
   dispatch(signoutUserFailure(error.message))
 }
   }
@@ -128,7 +126,6 @@ try {
     return setShowListingError(true)
   }
   setShowListingError(false)
-  // console.log(data)
   setUserListing(data)
 } catch (error) {
   setShowListingError(true)
@@ -139,8 +136,8 @@ try {
       const res=await fetch(`/api/listing/delete/${listingId}`,{
         method:'DELETE'
       })
+      //eslint-disable-next-line
       const data=await res.json()
-      console.log(data)
       setUserListing((prev)=>{
         prev.filter((listing)=>listing._id!==listingId)
       })

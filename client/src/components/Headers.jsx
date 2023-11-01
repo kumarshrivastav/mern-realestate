@@ -10,7 +10,6 @@ const Headers = () => {
   const handleSubmit=(e)=>{
     e.preventDefault()
     try {
-      console.log(searchTerm)
       const urlParams=new URLSearchParams(window.location.search)
       urlParams.set('searchTerm',searchTerm)
       const searchQuery=urlParams.toString()

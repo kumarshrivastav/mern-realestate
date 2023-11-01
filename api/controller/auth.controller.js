@@ -20,8 +20,7 @@ class AuthController {
       const salt = await bcryptjs.genSalt(10);
       const hashPwd = await bcryptjs.hash(password, salt);
       user.password = hashPwd;
-      const saveNewUser = await user.save();
-      // console.log("Saved:", saveNewUser);
+      await user.save();
       const {password:pass,...rest}=user._doc
       return res.status(201).send({ message: "User Registered Successfully",user: rest});
     } catch (error) {
