@@ -4,6 +4,7 @@ import ListingCard from "../components/ListingCard";
 const Search = () => {
     const [loading,setLoading]=useState(false)
     const [listings,setListings]=useState([])
+    const [showMore,setShowMore]=useState(false)
   const [sideBardata, setSidebardata] = useState({
     searchTerm: "",
     type: "all",
@@ -93,6 +94,9 @@ try {
     const res=await fetch(`/api/listing/get/?${searchQuery}`)
     const data=await res.json()
     setListings(data)
+    if(data.length>8){
+      setShowMore(true)
+    }
     setLoading(false)
 } catch (error) {
     console.log(error)
@@ -101,6 +105,19 @@ try {
     fetchListings()
     //eslint-disable-next-line
   },[location.search]);
+  const onShowMoreClick= async ()=>{
+    const noOfLisints=listings.length
+    const startIndex=noOfLisints
+    const urlParams=new URLSearchParams(location.search)
+    urlParams.set('startIndex',startIndex)
+    const searchQuery=urlParams.toString()
+    const res=await fetch(`/api/listing/get/?${searchQuery}`)
+    const data=await res.json()
+    if(data.length>8){
+      setShowMore(true)
+    }else{setShowMore(false)}
+    setListings([...listings,...data])
+  }
   return (
     <div className="flex flex-col md:flex-row">
       <div className="p-7 border-b-2 md:border-r-2 md:min-h-screen">
@@ -234,6 +251,11 @@ try {
               <ListingCard key={listing._id} listing={listing}/>
             ))
           }
+          {showMore && (
+            <button onClick={onShowMoreClick} className="text-green-700 p-7 hover:underline">
+              Show More
+            </button>
+          )}
         </div>
       </div>
     </div>
