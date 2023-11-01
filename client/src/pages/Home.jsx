@@ -5,10 +5,10 @@ import ListingCard from "../components/ListingCard";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
-import  "swiper/css/bundle"
+import "swiper/css/bundle";
 import { Navigation } from "swiper/modules";
 const Home = () => {
-  SwiperCore.use([Navigation])
+  SwiperCore.use([Navigation]);
   const [offerListing, setOfferListing] = useState([]);
   const [rentListing, setRentListing] = useState([]);
   const [saleListing, setSaleListing] = useState([]);
@@ -58,70 +58,89 @@ const Home = () => {
           <br />
           We have a wide range of properties for you to choose from.
         </div>
-        <Link to={"/search"} className="text-xs sm:text-sm text-blue-800 font-bold hover:underline">
+        <Link
+          to={"/search"}
+          className="text-xs sm:text-sm text-blue-800 font-bold hover:underline"
+        >
           Let's get started
         </Link>
       </div>
       <Swiper navigation>
-        {offerListing && offerListing.length>0 && offerListing.map((listing)=>(
-          <SwiperSlide key={listing._id}>
-            <div style={{background:`url(${listing.imageUrls[0]}) no-repeat center`,backgroundSize:'cover'}} className="h-[500px]"></div>
-          </SwiperSlide>
-        ))}
+        {offerListing &&
+          offerListing.length > 0 &&
+          offerListing.map((listing) => (
+            <SwiperSlide key={listing._id}>
+              <div
+                style={{
+                  background: `url(${listing.imageUrls[0]}) no-repeat center`,
+                  backgroundSize: "cover",
+                }}
+                className="h-[500px]"
+              ></div>
+            </SwiperSlide>
+          ))}
       </Swiper>
       <div className="flex flex-col gap-8 my-10 mx-auto max-w-6xl">
-          {
-            offerListing && offerListing.length>0 && (
-              <div>
-                <div className="my-3">
-                  <h2 className="text-slate-600 text-2xl font-semibold">Recent Offers.</h2>
-                  <Link className="text-blue-800 text-sm hover:underline" to={`/search/?offer=true`}>Show more offers</Link>
-                </div>
-                <div className="flex flex-wrap gap-4">
-                  {
-                    offerListing.map((listing)=>(
-                      <ListingCard listing={listing} key={listing._id}/>
-                    ))
-                  }
-                </div>
-              </div>
-            )
-          }
-          {
-            rentListing && rentListing.length>0 && (
-              <div>
-                <div className="my-3">
-                  <h2 className="text-slate-600 text-2xl font-semibold">Recent Places For Rents.</h2>
-                  <Link className="text-blue-800 text-sm hover:underline" to={`/search/?type=rent`}>Show more places for rents</Link>
-                </div>
-                <div className="flex flex-wrap gap-4">
-                  {
-                    rentListing.map((listing)=>(
-                      <ListingCard listing={listing} key={listing._id}/>
-                    ))
-                  }
-                </div>
-              </div>
-            )
-          }
-          {
-            saleListing && saleListing.length>0 && (
-              <div>
-                <div className="my-3">
-                  <h2 className="text-slate-600 text-2xl font-semibold">Recent Places For Sales.</h2>
-                  <Link className="text-blue-800 text-sm hover:underline" to={`/search/?type=sale`}>Show more places for sales</Link>
-                </div>
-                <div className="flex flex-wrap gap-4">
-                  {
-                    saleListing.map((listing)=>(
-                      <ListingCard listing={listing} key={listing._id}/>
-                    ))
-                  }
-                </div>
-              </div>
-            )
-          }
-          
+        {offerListing && offerListing.length > 0 && (
+          <div>
+            <div className="my-3">
+              <h2 className="text-slate-600 text-2xl font-semibold">
+                Recent Offers.
+              </h2>
+              <Link
+                className="text-blue-800 text-sm hover:underline"
+                to={`/search/?offer=true`}
+              >
+                Show more offers
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {offerListing.map((listing) => (
+                <ListingCard listing={listing} key={listing._id} />
+              ))}
+            </div>
+          </div>
+        )}
+        {rentListing && rentListing.length > 0 && (
+          <div>
+            <div className="my-3">
+              <h2 className="text-slate-600 text-2xl font-semibold">
+                Recent Places For Rents.
+              </h2>
+              <Link
+                className="text-blue-800 text-sm hover:underline"
+                to={`/search/?type=rent`}
+              >
+                Show more places for rents
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {rentListing.map((listing) => (
+                <ListingCard listing={listing} key={listing._id} />
+              ))}
+            </div>
+          </div>
+        )}
+        {saleListing && saleListing.length > 0 && (
+          <div>
+            <div className="my-3">
+              <h2 className="text-slate-600 text-2xl font-semibold">
+                Recent Places For Sales.
+              </h2>
+              <Link
+                className="text-blue-800 text-sm hover:underline"
+                to={`/search/?type=sale`}
+              >
+                Show more places for sales
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {saleListing.map((listing) => (
+                <ListingCard listing={listing} key={listing._id} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
